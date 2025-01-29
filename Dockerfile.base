@@ -1,0 +1,27 @@
+# Use the latest Ubuntu as the base image
+FROM ubuntu:latest
+
+RUN apt-get update && apt-get install -y \
+    wget \
+    ca-certificates \
+    gnupg \
+    curl \
+    lsb-release \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN wget --no-check-certificate https://download.oracle.com/java/23/latest/jdk-23_linux-x64_bin.deb -O openjdk-23.deb \
+    && dpkg -i openjdk-23.deb \
+    && apt-get install -f -y \
+    && rm openjdk-23.deb
+
+# Verify the installation of JDK 23
+RUN java -version
+
+ENV JAVA_HOME /usr/lib/jvm/java-23-openjdk-amd64/
+RUN export JAVA_HOME
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Default command to keep the container running
+CMD ["bash"]

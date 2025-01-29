@@ -12,7 +12,7 @@
     <artifactId>spring-docker-redis</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>spring-docker-redis</name>
-    <description>spring-docker</description>
+    <description>spring-docker-redis</description>
     <url/>
     <licenses>
         <license/>
@@ -27,7 +27,7 @@
         <url/>
     </scm>
     <properties>
-        <java.version>23</java.version>
+        <java.version>21</java.version>
         <maven.compiler.proc>full</maven.compiler.proc>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
@@ -61,12 +61,12 @@
             <groupId>io.micrometer</groupId>
             <artifactId>micrometer-registry-prometheus</artifactId>
         </dependency>
-        <dependency>
+        <!--<dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
             <scope>runtime</scope>
             <optional>true</optional>
-        </dependency>
+        </dependency>-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-docker-compose</artifactId>
@@ -105,6 +105,22 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-oauth2-client</artifactId>
         </dependency>
+        <!--web jars start-->
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>jquery</artifactId>
+            <version>3.4.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>bootstrap</artifactId>
+            <version>4.3.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>webjars-locator-core</artifactId>
+        </dependency>
+        <!--web jars end-->
     </dependencies>
     <dependencyManagement>
         <dependencies>
@@ -149,6 +165,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
+                    <excludeDevtools>false</excludeDevtools>
                     <detail>true</detail>
                     <cleanCache>true</cleanCache>
                     <optimizedLaunch>true</optimizedLaunch>
@@ -159,9 +176,9 @@
                         </exclude>
                     </excludes>
                     <image>
-                        <env>
-                            <BP_JVM_VERSION>17</BP_JVM_VERSION>
-                        </env>
+                        <name>spring-docker-redis:latest</name>
+                        <builder>paketobuildpacks/builder:full</builder>
+                        <runImage>paketobuildpacks/run:base-cnb</runImage>
                     </image>
                 </configuration>
             </plugin>
