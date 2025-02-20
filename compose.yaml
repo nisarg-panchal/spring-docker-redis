@@ -2,6 +2,7 @@ services:
   spring-backend:
     image: "spring-docker-redis:latest"
     build:
+      dockerfile: Dockerfile.quick
       context: .
     container_name: rest_service
     depends_on:

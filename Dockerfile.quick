@@ -1,8 +1,13 @@
-FROM bellsoft/liberica-openjdk-debian:21
+FROM amazoncorretto:22
 
 WORKDIR /app
 
 COPY target/*.jar app.jar
+COPY github.crt /tmp/github-cert.pem
+
+RUN keytool -import -trustcacerts -keystore $JAVA_HOME/lib/security/cacerts -storepass changeit \
+    -noprompt -alias github-cert -file /tmp/github-cert.pem && \
+    rm -f /tmp/github-cert.pem \
 
 EXPOSE 8080
 
